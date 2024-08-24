@@ -1,0 +1,93 @@
+body {
+    background-color: #f4f4f4;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+}
+
+.website-heading {
+    text-align: center;
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 40px;
+    margin: 20px 0;
+}
+
+.login-present{
+    min-height: calc(100vh - 200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.login-child{
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    min-width: 400px;
+    max-width: 600px;
+    max-height: calc(100vh - 120px);
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.signup-heading{
+    text-align: center;
+}
+
+.inpu-fields{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.inpu-fields input{
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 0.9em;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+.inpu-fields input:focus{
+    outline: none;
+}
+.forgetOrsignup{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+.forget:hover{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.signup{
+    color: rgb(235, 120, 78);
+}
+.signup:hover{
+    color: orangered;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.login-button{
+    width: 100%;
+    margin-top: 20px;
+}
+.login-button button{
+    width: 100%;
+    height: 6vh;
+    font-size: 1em;
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+.login-button button:hover{
+    cursor: pointer;
+    background-color: rgb(58, 58, 243);
+}
