@@ -13,81 +13,167 @@ body {
     margin: 20px 0;
 }
 
-.login-present{
+.login-parent {
     min-height: calc(100vh - 200px);
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    font-family: 'Times New Roman', Times, serif;
+    perspective: 1000px;
 }
 
-.login-child{
+.login-child {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    min-width: 400px;
-    max-width: 600px;
-    max-height: calc(100vh - 120px);
-    min-height: 20vh;
-    display: flex;
-    flex-direction: column;
+    width: 400px;
+    height: 400px;
     position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s;
 }
 
-.signup-heading{
+.login-Page,
+.signup-Page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.signup-Page {
+    transform: rotateY(180deg);
+}
+
+.flipped .login-child {
+    transform: rotateY(180deg);
+}
+
+.signin-heading {
     text-align: center;
+    width: 90%;
 }
 
-.inpu-fields{
+.input-fields {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    width: 90%;
+    margin-left: 5px;
 }
-.inpu-fields input{
+
+.input-fields input {
     margin-bottom: 20px;
     padding: 10px;
     font-size: 0.9em;
     border-radius: 8px;
     border: 1px solid black;
+    width: auto;
 }
-.inpu-fields input:focus{
+
+.input-fields input:focus {
     outline: none;
 }
-.forgetOrsignup{
+
+.forgetOrsignup {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+    width: 90%;
 }
-.forget:hover{
+
+.forget:hover {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
 }
-.signup{
+
+.signup {
     color: rgb(235, 120, 78);
 }
-.signup:hover{
+
+.signup:hover {
     color: orangered;
     text-decoration: underline;
     cursor: pointer;
 }
-.login-button{
-    width: 100%;
+
+.login-button {
+    width: 90%;
     margin-top: 20px;
 }
-.login-button button{
+
+.login-button button {
     width: 100%;
     height: 6vh;
     font-size: 1em;
-    background-color: blue;
     color: white;
     border-radius: 10px;
-    border: 1px solid black;
+    border: none;
+    background-color: rgb(92, 92, 240);
 }
-.login-button button:hover{
+
+.login-button button:hover {
     cursor: pointer;
-    background-color: rgb(58, 58, 243);
+    background-color: blue;
+}
+
+.signup-heading{
+    width: 95%;
+    text-align: center;
+    margin-left: 30px;
+}
+
+.signup-input-fields{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 90%;
+    margin-left: 40px;
+}
+
+.signup-input-fields input {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 0.9em;
+    border-radius: 8px;
+    border: 1px solid black;
+    width: auto;
+}
+
+.signup-input-fields input:focus {
+    outline: none;
+}
+
+.signup-button {
+    width: 90%;
+    margin-top: 20px;
+    margin-left: 40px;
+}
+
+.signup-button button {
+    width: 100%;
+    height: 6vh;
+    font-size: 1em;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(92, 92, 240);
+}
+
+.signup-button button:hover {
+    cursor: pointer;
+    background-color: blue;
+}
+
+.back-to-login {
+    text-align: right;
+    color: rgb(235, 120, 78);
+}
+
+.back-to-login:hover {
+    color: orangered;
+    text-decoration: underline;
+    cursor: pointer;
 }
