@@ -177,3 +177,16 @@ body {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.errorMessage {
+    color: red;
+    background-color: #fdd;
+    border: 1px solid #fbb;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
