@@ -1,29 +1,39 @@
 const express = require('express');
-const app = express();
 const http = require('http');
 const { Server } = require("socket.io");
-
-const server = http.createServer(app);
 const path = require('path');
-const io = new Server(server)
 
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+let messages = [];
 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-io.on('connection', (socket) =>{
-    
-    socket.on('chat message', (msg) =>{
+io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
+
+    socket.on('login', (data) => {
+        io.emit('user status', { message: `${data.username} has joined the chat.` });
+    });
+
+    socket.on('retrieve messages', (data) => {
+        socket.emit('message history', messages);
+    });
+
+    socket.on('chat message', (msg) => {
+        messages.push(msg);
         io.emit('chat message', msg);
-        console.log(msg)
     });
 
-    socket.on('login', () =>{
-        console.log("A new user is login")
+    socket.on('logout user', (data) => {
+        io.emit('user status', { message: `${data.username} has logged out.` });
     });
 
-    socket.on('logout user', () =>{
-        console.log("user is logout")
-        socket.disconnect();
+    socket.on('disconnect', () => {
+        io.emit('user status', { message: 'A user has left the chat.' });
+        console.log(`User disconnected: ${socket.id}`);
     });
 });
 
@@ -32,5 +42,5 @@ app.get('/', (req, res) => {
 });
 
 server.listen(5000, () => {
-    console.log('Application is running on port 5000!');
+    console.log('Server is running on port 5000!');
 });
