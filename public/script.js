@@ -5,7 +5,7 @@ function openMessageBox() {
     const messages = document.querySelector('.messages')
     window.location.href = 'messageBox.html';
 }
-
+    
 function sendMessage() {
     const userInputMessage = document.querySelector("#userInputMessage");
     const newTime = getTime();
