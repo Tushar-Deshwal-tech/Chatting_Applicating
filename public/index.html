@@ -25,19 +25,16 @@
             <div class="signup-Page">
                 <h1 class="signup-heading">SIGN UP</h1>
                 <div class="signup-input-fields">
-                    <input type="text" placeholder="Enter your full name">
-                    <input type="text" placeholder="Enter your phone number">
-                    <input type="text" placeholder="Enter your Email">
-                    <input type="text" placeholder="Enter your password">
+                    <input type="text" placeholder="Enter your full name" id="signup-name">
+                    <input type="text" placeholder="Enter your phone number" id="signup-number">
+                    <input type="text" placeholder="Enter your Email" id="signup-email">
+                    <input type="password" placeholder="Enter your password" id="signup-password">
                 </div>
                 <div class="back-to-login" onclick="pageHandle()">Back to login</div>
-                <div class="signup-button"><button>SignUp</button></div>
+                <div class="signup-button"><button onclick="registerUser()">SignUp</button></div>
             </div>
         </div>
     </div>
-
-
-
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/login_page.js"></script>
