@@ -1,68 +1,89 @@
-let userData = [
-    {
-        name: "user1",
-        number: 9874123650,
-        email: "user1@gmail.com",
-        password: "user1@123"
-    },
-    {
-        name: "user2",
-        number: 9876543210,
-        email: "user2@gmail.com",
-        password: "user2@123"
-    }
-];
+const socket = io();
 
 function pageHandle() {
     const loginPresent = document.querySelector('.login-parent');
     loginPresent.classList.toggle('flipped');
 }
 
+
 function authenticateUser() {
-    const loginEmail = document.getElementById("login-username").value;
+    const loginUsername = document.getElementById("login-username").value;
     const loginPassword = document.getElementById("login-password").value;
 
     const inputElements = document.querySelector(".input-fields");
-    const emailElement = document.getElementById("login-username");
-    const passwordElement = document.getElementById("login-password");
+    const aboveElement = document.getElementById("login-username");
 
     clearErrors();
     EmptyInput();
-    let emailError = null;
-    let passwordError = null;
 
-    if (!validateEmail(loginEmail)) {
-        emailError = "Please Enter a Valid Email Id!";
-        showError(inputElements, emailElement, emailError);
+    if (!validateEmail(loginUsername)) {
+        errorMessage = "Please Enter a Valid Email Id!";
+        showError(inputElements, aboveElement, errorMessage);
         return;
     }
 
-    const user = userData.find(user => user.email === loginEmail);
+    socket.emit('login', { username: loginUsername, password: loginPassword });
 
-    if (!user) {
-        emailError = "Email does not exist!";
-        showError(inputElements, emailElement, emailError);
-        return;
-    }
-
-    if (user.password !== loginPassword) {
-        passwordError = "Password is incorrect!";
-        showError(inputElements, emailElement, passwordError);
-        return;
-    }
-
-    if (!emailError && !passwordError) {
-        const expirationTime = new Date().getTime() + (24 * 60 * 60 * 1000);
-        localStorage.setItem('authSuccess', 'true');
-        localStorage.setItem('username', user.name);
-        localStorage.setItem('loginTimestamp', expirationTime);
-        window.location.href = 'messageBox.html';
-    }
+    socket.on('login response', (response) => {
+        if (response.success) {
+            // localStorage.setItem('authSuccess', 'true');
+            // localStorage.setItem('username', loginUsername);
+            // localStorage.setItem('loginTimestamp', new Date().getTime() + (24 * 60 * 60 * 1000));
+            // window.location.href = 'messageBox.html';
+            console.log("user is login")
+        } else {
+            showError(inputElements, emailElement, response.message);
+        }
+    });
 }
+
+function registerUser() {
+    const name = document.getElementById('signup-name').value;
+    const number = document.getElementById('signup-number').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+
+
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: name, password, email, number })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.success) {
+            pageHandle(); // Switch back to login
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Registration failed.');
+    });
+}
+
+
+
 
 function validateEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+function validateNumber(number) {
+    return number.length === 10;
+}
+
+function validatePassword(password) {
+    const hasSpecialChar = /[!@#$%^&*()]/.test(password);
+    const isValidLength = password.length >= 6;
+    return hasSpecialChar && isValidLength;
+}
+
+
+
 
 function showError(mainElement, beforeElement, errorMessage) {
     const errordiv = document.createElement("div");
