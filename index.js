@@ -8,17 +8,21 @@ const MongoStore = require('connect-mongo');
 const bcrypt = require('bcryptjs');
 const connectDatabase = require('./DB');
 const Users = require('./userModel');
+require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'static')));
+
 // Middleware for sessions
 const sessionMiddleware = session({
-    secret: '943c59e9e2b210ef5a2b57b3ca45a0f664c8a27176acba32ec0e9a3d4927b1d1',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://tushardeshwal:nmo8pXRAfMpU4lLm@chating-application.d0tos.mongodb.net/" })
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL })
 });
 
 // Use session middleware
@@ -27,53 +31,69 @@ io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
 });
 
-// Serve static files
-app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Connect to database
 connectDatabase();
 
+// Store messages for the chat session
+const messages = [];
+
 // User registration endpoint
 app.post('/register', async (req, res) => {
     const { username, password, email, number } = req.body;
-
     try {
-        const existingUser = await Users.findOne({ email: email });
-        if (existingUser) return res.status(400).send('User already exists.');
+        const existingEmail = await Users.findOne({ email });
+        const existingNumber = await Users.findOne({ number });
+
+        if (existingEmail) {
+            return res.status(400).json({ success: false, message: 'Email already exists.' });
+        }
+
+        if (existingNumber) {
+            return res.status(400).json({ success: false, message: 'Number already exists.' });
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new Users({ name: username, password: hashedPassword, email, number });
         await newUser.save();
 
-        res.status(201).send('User registered successfully.');
+        return res.status(200).json({ success: true, message: 'User registered successfully.' });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Server error');
+        console.error('Server Error:', error);
+        return res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
     }
 });
+
+
 
 // Socket.IO login
 io.on('connection', (socket) => {
     socket.on('login', async (data) => {
-        const { username, password } = data;
-
+        const { useremail, password } = data;
         try {
-            const userData = await Users.findOne({ name: username });
-            if (userData && await bcrypt.compare(password, userData.password)) {
+            const userData = await Users.findOne({ email: useremail });
+            if (!userData) {
+                socket.emit('login response', { success: false, message: 'Email is not registered, Please signup first!' });
+                return;
+            }
+            if (await bcrypt.compare(password, userData.password)) {
+                const username = userData.name;
                 socket.request.session.username = username;
                 socket.request.session.save();
                 socket.emit('login response', { success: true });
                 io.emit('user status', { message: `${username} has joined the chat.` });
             } else {
-                socket.emit('login response', { success: false, message: 'Incorrect username or password.' });
+                socket.emit('login response', { success: false, message: 'Incorrect Password, Please Try Again!' });
             }
         } catch (error) {
             console.error(error);
+            socket.emit('login response', { success: false, message: 'Server error' });
         }
     });
-
+    
     socket.on('logout user', (data) => {
         io.emit('user status', { message: `${data.username} has logged out.` });
         socket.request.session.destroy();
@@ -87,13 +107,8 @@ io.on('connection', (socket) => {
         messages.push(msg);
         io.emit('chat message', msg);
     });
-
-    socket.on('disconnect', () => {
-        io.emit('user status', { message: 'A user has left the chat.' });
-        console.log(`User disconnected: ${socket.id}`);
-    });
 });
 
-server.listen(5000, () => {
-    console.log('Server is running on port 5000!');
+server.listen(3000, () => {
+    console.log('Server is running on port 3000!');
 });
