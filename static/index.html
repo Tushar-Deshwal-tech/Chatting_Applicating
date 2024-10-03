@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <h1 class="website-heading">Chat Application</h1>
+    <div class="login-parent">
+        <div class="login-child">
+            <div class="login-Page">
+                <h1 class="signin-heading">Login</h1>
+                <div class="input-fields">
+                    <input type="text" placeholder="Enter your email" id="login-useremail">
+                    <input type="text" placeholder="Enter your password" id="login-password">
+                </div>
+                <div class="forgetOrsignup">
+                    <div class="forget">Forget Password</div>
+                    <div class="signup" onclick="pageHandle()">Signup</div>
+                </div>
+                <div class="login-button"><button onclick="authenticateUser()">Login</button></div>
+            </div>
+            <div class="signup-Page">
+                <h1 class="signup-heading">SIGN UP</h1>
+                <div class="signup-input-fields">
+                    <input type="text" placeholder="Enter your full name" id="signup-name" required>
+                    <input type="number" placeholder="Enter your phone number" id="signup-number" required>
+                    <input type="text" placeholder="Enter your Email" id="signup-email" required>
+                    <input type="password" placeholder="Enter your password" id="signup-password" required>
+                </div>
+                <div class="back-to-login" onclick="pageHandle()"><span>Back to login</span></div>
+                <div class="signup-button"><button onclick="checkUserDetails()">SignUp</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/index.js"></script>
+</body>
+</html>
