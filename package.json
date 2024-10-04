@@ -9,7 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "env": "^0.0.2",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongoos": "^0.0.1-security",
+    "mongoose": "^8.7.0",
     "socket.io": "^4.7.5"
   },
   "keywords": []
