@@ -97,7 +97,7 @@ body {
     background-color: white;
 }
 
-.message-time{
+.messageTime{
     display: flex;
     justify-content: space-between;
     align-items: end;
