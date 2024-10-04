@@ -6,9 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const now = new Date().getTime();
     const oneDayInMillis = 24 * 60 * 60 * 1000;
 
+    const isPageReload = sessionStorage.getItem('pageReloaded');
     if (authSuccess && username && loginTimestamp) {
         if (now < parseInt(loginTimestamp, 10) + oneDayInMillis) {
-            openMessageBox(username);
+            initializeSocket(username);
+            socket.emit('retrieve messages')
+            if (!isPageReload) {
+                socket.emit('join chat', { username });
+                sessionStorage.setItem('pageReloaded', 'true');
+            }
         } else {
             clearAuthData();
             window.location.href = 'index.html';
@@ -24,85 +30,93 @@ function initializeSocket() {
     if (!socket) {
         socket = io();
 
-        socket.on('user status', (data) => {
-            createUserStatus(data.message);
+        socket.on('user joined', (data) => {
+            userJoined(data.message);
+            console.log(data.message)
         });
 
-        socket.on('chat message', (msg) => {
-            displayMessage(msg);
+        socket.on('display message', (data) => {
+            userMessage(data);
         });
-        
-        socket.on('message history', (messages) => {
-            messages.forEach(msg => displayMessage(msg));
+
+        socket.on('all messages', (messages) => {
+            // const reversedMessages = messages.reverse();
+            messages.forEach((message) => {
+                userMessage(message);
+            });
         });
     }
 }
 
-function openMessageBox(username) {
-    initializeSocket();
-    socket.emit('login', { id: socket.id, username: username });
-
-    socket.emit('retrieve messages', { username: username });
-}
-
-function createUserStatus(message) {
-    const messages = document.querySelector('.messages');
-    const userStatus = document.createElement("div");
-    userStatus.classList.add("userStatus");
-    userStatus.textContent = message;
-    messages.appendChild(userStatus);
-    messages.scrollTop = messages.scrollHeight;
-}
-
-function displayMessage(msg) {
-    const messages = document.querySelector('.messages');
-    const messageSection = createMessagesSection();
-
-    messageSection.querySelector('.username').textContent = msg.username;
-    messageSection.querySelector('.usermessage').textContent = msg.message;
-    messageSection.querySelector('.usertime').textContent = msg.time;
-
-    messages.appendChild(messageSection);
-    messages.scrollTop = messages.scrollHeight;
+function userJoined(message) {
+    const messageSection = document.querySelector('.messageSection');
+    const userConnectedDiv = document.createElement("div");
+    userConnectedDiv.classList.add("userConnected");
+    userConnectedDiv.textContent = message;
+    messageSection.appendChild(userConnectedDiv);
 }
 
 function sendMessage() {
     if (socket) {
         const userInputMessage = document.querySelector("#userInputMessage");
-        const newTime = getTime();
         const username = localStorage.getItem('username');
         if (userInputMessage.value.trim()) {
-            socket.emit('chat message', { id: socket.id, username: username, message: userInputMessage.value, time: newTime });
+            const messageData = {
+                name: username,
+                message: userInputMessage.value,
+                time: new Date().getTime()
+            };
+            socket.emit('chat message', messageData);
             userInputMessage.value = '';
         }
     }
 }
 
-function createMessagesSection() {
-    const messageSection = document.createElement("div");
-    messageSection.classList.add('message_section');
+function createUserMessageDiv() {
+    const userMessageDiv = document.createElement("div");
+    userMessageDiv.classList.add('userMessage');
 
-    const username = document.createElement("div");
-    username.classList.add('username');
+    const userName = document.createElement("div");
+    userName.classList.add('userName');
 
     const messageTime = document.createElement("div");
     messageTime.classList.add('messageTime');
 
-    const usermessage = document.createElement("div");
-    usermessage.classList.add('usermessage');
+    const message = document.createElement("div");
+    message.classList.add('message');
 
-    const newTime = document.createElement("div");
-    newTime.classList.add('usertime');
+    const time = document.createElement("div");
+    time.classList.add('time');
 
-    messageTime.appendChild(usermessage);
-    messageTime.appendChild(newTime);
-    messageSection.appendChild(username);
-    messageSection.appendChild(messageTime);
+    messageTime.appendChild(message);
+    messageTime.appendChild(time);
+    userMessageDiv.appendChild(userName);
+    userMessageDiv.appendChild(messageTime);
 
-    return messageSection;
+    return userMessageDiv;
 }
 
-function logout() {
+function userMessage(data) {
+    const messageSection = document.querySelector('.messageSection');
+    const createUserMessageDivInstance = createUserMessageDiv();
+
+    createUserMessageDivInstance.querySelector('.userName').textContent = data.name;
+    createUserMessageDivInstance.querySelector('.message').textContent = data.message;
+    createUserMessageDivInstance.querySelector('.time').textContent = new Date(data.time).toLocaleTimeString();
+
+    messageSection.appendChild(createUserMessageDivInstance);
+    messageSection.scrollTop = messageSection.scrollHeight;
+    activeuserOrnot(createUserMessageDivInstance, data.name);
+}
+
+function activeuserOrnot(userMessageDiv, name) {
+    const localstoragename = localStorage.getItem('username');
+    if (localstoragename === name) {
+        userMessageDiv.classList.add('activeUser');
+    }
+}
+
+function logoutUser() {
     if (socket) {
         const username = localStorage.getItem('username');
         socket.emit('logout user', { username: username });
