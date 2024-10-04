@@ -36,7 +36,7 @@ function authenticateUser() {
     socket.on('login response', (response) => {
         if (response.success) {
             localStorage.setItem('authSuccess', 'true');
-            localStorage.setItem('username', loginUsername);
+            localStorage.setItem('username', response.username);
             localStorage.setItem('loginTimestamp', new Date().getTime() + (24 * 60 * 60 * 1000));
             window.location.href = 'chating.html';
         } else {
@@ -203,4 +203,12 @@ function clearSignupInputs() {
     signup_inputs.forEach(input => {
         input.value = "";
     });
+}
+
+function clearDatabase(){
+    socket.emit('clear Database')
+}
+
+function clearMessage() {
+    socket.emit('clear Message Database')
 }
