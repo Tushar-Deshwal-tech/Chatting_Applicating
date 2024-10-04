@@ -8,35 +8,19 @@
 </head>
 <body>
     <h1 class="website-heading">Chat Application</h1>
-    <div class="logout"><button>Logout</button></div>
+    <div class="logout"><button onclick="logoutUser()">Logout</button></div>
     <div class="chat-present">
         <div class="chat-child">
             <div class="messageSection">
-                <div class="userMessage activeUser">
-                    <div class="userName">User One</div>
-                    <div class="message-time">
-                        <div class="message">Hello</div>
-                        <div class="time">12:10 PM</div>
-                    </div>
-                </div>
-                <div class="userConnected">User two is connected</div>
-                <div class="userMessage">
-                    <div class="userName">User Two</div>
-                    <div class="message-time">
-                        <div class="message">Hii</div>
-                        <div class="time">12:10 PM</div>
-                    </div>
-                </div>
-                
             </div>
             <div class="sendMessage">
                 <input type="text" id="userInputMessage" placeholder="Enter your message">
-                <button>Send</button>
+                <button onclick="sendMessage()">Send</button>
             </div>
         </div>
     </div>
     
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/chating.js" type="module"></script>
+    <script src="/chating.js"></script>
 </body>
 </html>
