@@ -272,3 +272,8 @@ function clearDatabase() {
 function clearMessage() {
     socket.emit('clear Message Database');
 }
+
+window.addEventListener('load', () => {
+    document.querySelector('.login-child').classList.add('loaded');
+});
+

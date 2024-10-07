@@ -89,11 +89,6 @@ io.on('connection', (socket) => {
             socket.emit('login response', { success: false, message: 'Server error' });
         }
     });
-    
-    socket.on('join chat', (data) => {
-        io.emit('user joined', { message: `${data.username} has joined the chat.` });
-        console.log(`${data.username} has joined the chat.`)
-    });
 
     socket.on('chat message', async (data) => {
         try {

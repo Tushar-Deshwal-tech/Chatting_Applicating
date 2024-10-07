@@ -65,8 +65,13 @@ body {
     width: 100%;
     max-width: 450px;
     max-height: 45vh;
+    min-height: 45vh;
     transform-style: preserve-3d;
     transition: transform 0.8s;
+}
+
+.login-child.loaded {
+    background-color: rgba(255, 255, 255, 0.5); /* Visible background immediately */
 }
 
 /* --------------------- Login and Signup Pages --------------------- */

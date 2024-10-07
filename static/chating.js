@@ -9,12 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const isPageReload = sessionStorage.getItem('pageReloaded');
     if (authSuccess && username && loginTimestamp) {
         if (now < parseInt(loginTimestamp, 10) + oneDayInMillis) {
-            initializeSocket(username);
+            initializeSocket();
             socket.emit('retrieve messages')
-            if (!isPageReload) {
-                socket.emit('join chat', { username });
-                sessionStorage.setItem('pageReloaded', 'true');
-            }
         } else {
             clearAuthData();
             window.location.href = 'index.html';
@@ -40,7 +36,6 @@ function initializeSocket() {
         });
 
         socket.on('all messages', (messages) => {
-            // const reversedMessages = messages.reverse();
             messages.forEach((message) => {
                 userMessage(message);
             });

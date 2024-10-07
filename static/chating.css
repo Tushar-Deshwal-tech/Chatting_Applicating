@@ -1,13 +1,16 @@
+/* --------------------- Body Styling --------------------- */
 body {
     background-image: url('/images/background1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     margin: 0;
     padding: 0;
     font-family: 'Times New Roman', Times, serif;
 }
 
+/* --------------------- Website Heading --------------------- */
 .website-heading {
     text-align: center;
     text-decoration: underline;
@@ -19,30 +22,34 @@ body {
     color: #2d4f47;
 }
 
+/* --------------------- Logout Button Section --------------------- */
 .logout {
     display: flex;
     justify-content: right;
     align-items: center;
     text-align: right;
-    margin-right: 50px;
+    width: 100%;
+    height: 10vh;
 }
 
 .logout button {
     padding: 10px 20px;
+    margin-right: 40px;
     border: none;
     background-color: #55d3e4;
     color: rgb(73, 72, 72);
     border-radius: 4px;
-    font-size: 1em;
+    font-size: 1.2em;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout button:hover {
-    background-color: #04c5df;
+    background-color: #38c9dd;
     transform: scale(1.05);
     cursor: pointer;
 }
 
+/* --------------------- Chat Parent Container --------------------- */
 .chat-present {
     display: flex;
     flex-direction: column;
@@ -51,11 +58,11 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     min-width: 100vh;
-    min-height: auto;
-    margin-top: 4%;
+    min-height: calc(100vh - 10vh);
     position: relative;
 }
 
+/* --------------------- Chat Child Container --------------------- */
 .chat-child {
     background-color: rgba(255, 255, 255, 0.20);
     border-radius: 10px;
@@ -67,8 +74,11 @@ body {
     max-height: 50vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-content: center;
 }
 
+/* --------------------- Message Section Styling --------------------- */
 .messageSection {
     flex: 1;
     width: 100%;
@@ -79,43 +89,37 @@ body {
     overflow-y: auto;
 }
 
-.userConnected{
-    margin-top: 10px;
-    padding: 6px;
-    border-radius: 15px;
-    background-color: rgba(172, 171, 171, 0.986);
-    text-align: center;
-    font-size: small;
-    max-height: 2vh;
-    min-height: 2vh;
-}
-
-.userMessage{
+/* --------------------- User Message Styling --------------------- */
+.userMessage {
     margin-top: 10px;
     padding: 8px;
     border-radius: 10px;
     background-color: white;
 }
 
-.messageTime{
+/* --------------------- Message Time and User Info --------------------- */
+.messageTime {
     display: flex;
     justify-content: space-between;
     align-items: end;
     width: calc(100% - 10px);
 }
 
-.userName{
+.userName {
+    font-size: 1em;
     text-align: right;
     margin-right: 10px;
 }
 
-.message{
+.message {
+    font-size: 1em;
     font-weight: 500;
     margin-left: 10px;
-    max-width: 80%;
+    max-width: 60%;
     margin-top: 5px;
 }
 
+/* --------------------- Time Stamp Styling --------------------- */
 .time {
     width: 20%;
     display: flex;
@@ -126,10 +130,12 @@ body {
     margin-top: 5px;
 }
 
-.activeUser{
+/* --------------------- Active User Highlight --------------------- */
+.activeUser {
     background-color: #92c2f7;
 }
 
+/* --------------------- Send Message Section --------------------- */
 .sendMessage {
     width: 100%;
     padding: 10px;
@@ -166,8 +172,124 @@ body {
     transform: scale(1.05);
 }
 
+/* --------------------- Input Focus Style --------------------- */
 .sendMessage input:focus {
     outline: none;
     border-color: #007bff;
 }
 
+/* --------------------- Small Mobile Styles (Up to 320px) --------------------- */
+@media (max-width: 320px) {
+    .logout {
+        width: 100vh;
+    }
+
+    .messageTime {
+        width: calc(100% - 10px);
+        font-size: 0.8em;
+    }
+
+    .message {
+        max-width: 60%;
+        margin-top: 5px;
+    }
+
+    .time {
+        width: 20%;
+        font-size: 0.7em;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+
+    .userName {
+        font-size: 0.8em;
+    }
+
+    .sendMessage input {
+        font-size: 0.6em;
+    }
+
+    .sendMessage button {
+        font-size: 0.6em;
+    }
+
+    .logout button {
+        font-size: 0.8em;
+    }
+}
+
+/* --------------------- Mobile Styles --------------------- */
+@media (max-width: 480px) {
+    .logout {
+        width: 100vh;
+    }
+
+    .messageTime {
+        width: calc(100% - 10px);
+        font-size: 0.8em;
+    }
+
+    .message {
+        max-width: 60%;
+        margin-top: 5px;
+    }
+
+    .time {
+        width: 20%;
+        font-size: 0.7em;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+
+    .userName {
+        font-size: 0.8em;
+    }
+
+    .sendMessage input {
+        font-size: 0.6em;
+    }
+
+    .sendMessage button {
+        font-size: 0.6em;
+    }
+
+    .logout button {
+        font-size: 0.8em;
+    }
+}
+
+/* --------------------- Tablet Styles --------------------- */
+@media (max-width: 768px) {
+    .logout button {
+        font-size: 0.8em;
+    }
+
+    .messageTime {
+        width: calc(100% - 10px);
+        font-size: 0.8em;
+    }
+
+    .message {
+        max-width: 60%;
+        margin-top: 5px;
+    }
+
+    .time {
+        width: 20%;
+        font-size: 0.7em;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+
+    .userName {
+        font-size: 0.8em;
+    }
+
+    .sendMessage input {
+        font-size: 0.6em;
+    }
+
+    .sendMessage button {
+        font-size: 0.6em;
+    }
+}
