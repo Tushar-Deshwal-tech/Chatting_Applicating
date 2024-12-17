@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/chating.css">
 </head>
+
 <body>
     <div class="logout"><button onclick="logoutUser()">Logout</button></div>
     <div class="chat-present">
@@ -18,8 +20,13 @@
             </div>
         </div>
     </div>
-    
+    <div class="footer">
+        <p>"Warning: Your chat history will be cleared when you log out. This is a demo application using a
+            temporary database."</p>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chating.js"></script>
 </body>
+
 </html>
