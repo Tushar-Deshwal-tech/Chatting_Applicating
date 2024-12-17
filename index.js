@@ -6,9 +6,9 @@ const session = require('express-session');
 const mongoose = require("mongoose");
 const MongoStore = require('connect-mongo');
 const bcrypt = require('bcryptjs');
-const connectDatabase = require('./DB');
-const Users = require('./userModel');
-const Message = require('./messageModel');
+const connectDatabase = require('./config/DB');
+const Users = require('./models/userModel');
+const Message = require('./models/messageModel');
 require('dotenv').config();
 
 const app = express();
